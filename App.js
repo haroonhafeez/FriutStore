@@ -5,12 +5,14 @@ import Itemlist from './component/Itemlist';
 import Item from './component/Item';
 import Welcome from './component/Welcome';
 import Signup from './component/Signup';
+import Cart from './component/Cart';
 export default function App() {
   return (
   //  <Catogory/>   
   // <Itemlist/>
-  <Item/>
+  // <Item/>
   // <Welcome/>
   // <Signup/>
+  <Cart/>
   );
 }
