@@ -3,7 +3,7 @@ import {ScrollView,StyleSheet, View, Text, Image, TextInput, useWindowDimensions
 import { TabView, SceneMap,TabBar } from 'react-native-tab-view';
 
 
-const Itemlist = () => {
+const Itemlist = ({navigation}) => {
     const items=[
         {
             image:require('../assets/veg(1).png'),
@@ -43,7 +43,8 @@ const Itemlist = () => {
         data={items}
         renderItem={({item})=>{
             return(
-                <View style={{ height:150,width:'100%',justifyContent:'center',flexDirection:'row',alignItems:'center'}}>
+                <Pressable onPress={()=>navigation.navigate('Item')} style={{ height:150,width:'100%',justifyContent:'center',flexDirection:'row',alignItems:'center'}}>
+                
                 <Image style={{width:'40%',height:'80%',borderRadius:7}} source={item.image} />  
                 <View style={{width:'40%',marginLeft:25}}>
                  <Text style={{marginTop:10,fontSize:18,color:'#2D0C57',fontWeight:'800'}} >{item.name}</Text>
@@ -57,7 +58,7 @@ const Itemlist = () => {
                  </Pressable>
                  </View>
                 </View>
-             </View>
+             </Pressable>
             )
         }}
         />           

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {ScrollView, Dimensions, Text, TextInput, View,StyleSheet,FlatList, ImageBackground,Image } from 'react-native';
+import {ScrollView, Dimensions, Text, TextInput, View,StyleSheet,FlatList, ImageBackground,Image, Pressable } from 'react-native';
 import { SliderBox } from "react-native-image-slider-box";
 import { BlurView } from 'expo-blur';
-const Catogory=()=> {
+const Catogory=({navigation})=> {
    
     const CrousalData=[
         require('../assets/image0.jpg'),
@@ -53,6 +53,7 @@ const Catogory=()=> {
         
         renderItem={({ item }) => (
             <View style={{ flex:1, flexDirection: 'column', margin: 10,borderRadius:5 }}>
+              <Pressable onPress={()=>navigation.navigate('Itemlist')}>
               <ImageBackground  style={styles.imageThumbnail} source={item.image} >
               <BlurView intensity={80} tint='light' style={{width:150}} >
                 <View style={{width:'100%',height:40,alignItems:'center',justifyContent:'center'}} >               
@@ -62,6 +63,7 @@ const Catogory=()=> {
                 </View>
                 </BlurView>
                 </ImageBackground>
+                </Pressable>
             </View>
           )}
         numColumns={2}

@@ -1,5 +1,5 @@
 import { View,Text,StyleSheet,Image,Pressable } from "react-native";
-const Welcome=()=>{
+const Welcome=({navigation})=>{
 return(
     <View style={{backgroundColor:'#e2efe4'}} > 
         <View style={styles.bgimg} ><Image style={styles.img} source={require('../assets/background.jpg')} /></View>
@@ -10,7 +10,7 @@ return(
          <Text style={[styles.text,{fontSize:13,marginTop:15}]} >When placing an order, select the option </Text>
          <Text style={[styles.text,{fontSize:13}]}>“Contactless delivery”and the courier will leave</Text>
          <Text style={[styles.text,{fontSize:13}]} >your order at the door.</Text>
-        <Pressable style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
+        <Pressable onPress={()=>navigation.navigate('signup')} style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
             <Text style={{color:'#fff',fontWeight:'bold'}} >ORDER NOW</Text>
         </Pressable>
         <Pressable style={[styles.btn,{marginTop:10}]} >
