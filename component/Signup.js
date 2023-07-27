@@ -35,7 +35,7 @@ const Signup=({navigation})=>{
             ).catch((error)=>{
 
             })
-            alert('Login Secccesfully')
+            navigation.navigate('Catogory')
     }
 
     return(
@@ -43,12 +43,12 @@ const Signup=({navigation})=>{
         
         <View>
         <Pressable onPress={()=>navigation.navigate('Catogory')} style={{height:50,width:'100%',justifyContent:'center'}} ><Text  style={{position:'absolute',right:40,top:10,textDecorationLine:'underline'}}>Skip Login</Text></Pressable>        
-        <View style={{height:'60%'}}>
+        <View style={{height:'57%'}}>
         <SliderBox   
         images={CrousalData}
         dotColor="green"
         inactiveDotColor="black"
-        ImageComponentStyle={{height:'96%', borderRadius: 15, width: '90%'}}
+        ImageComponentStyle={{height:'97%', borderRadius: 15, width: '90%'}}
         autoplay
         circleLoop
         sliderBoxHeight={'100%'}

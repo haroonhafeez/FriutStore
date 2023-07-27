@@ -11,7 +11,8 @@ export const firebaseConfig = {
   storageBucket: "friutstore.appspot.com",
   messagingSenderId: "894736600908",
   appId: "1:894736600908:web:49348740172c71254689e9",
-  measurementId: "G-D4SYXM4H0R"
+  measurementId: "G-D4SYXM4H0R",
+  databaseURL:"https://friutstore-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 // Initialize Firebase

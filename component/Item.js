@@ -9,7 +9,7 @@ const Item = () => {
                 <Text style={{ fontSize: 12, color: '#0BCE83', fontWeight: '400' }} >~ 0.01$ /piece </Text>
                 <Text style={[styles.text, { fontWeight: '900', fontSize: 17, marginTop: 15 }]} >Spain</Text>
                 <Text style={[styles.text, { color: '#9586A8', fontSize: 15,lineHeight:25 }]}>Lettuce is an annual plant of the daisy family, Asteraceae. It is most often grown as a leaf vegetable, but sometimes for its stem and seeds. Lettuce is most often used for salads, although it is also seen in other kinds of food, such as soups, sandwiches and wraps; it can also be grilled.</Text>
-                <View style={{position:'absolute',bottom:60,left:25, marginTop:80, height: 50, width: '100%', flexDirection: 'row', alignItems: 'center' }} >
+                <View style={{position:'absolute',bottom:20,left:25, marginTop:80, height: 50, width: '100%', flexDirection: 'row', alignItems: 'center' }} >
                     <Pressable style={{ height: 45, width: '20%', borderColor: '#9586A8', borderWidth: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 3 }} >
                         <Image style={{ height: 20, width: 20 }} source={require('../assets/Vector.png')} />
                     </Pressable>
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f6f5f5',
         height: '65%',
         width: '100%',
-        borderRadius: 30,
         paddingLeft: 20
     },
     img: {

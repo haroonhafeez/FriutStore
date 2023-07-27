@@ -1,7 +1,23 @@
+import { useState } from "react";
+import { FlatList } from "react-native";
 import { ScrollView, StyleSheet, TextInput } from "react-native";
 import { Image, Text, View,Pressable } from "react-native";
 
 const Cart=()=>{
+    let count=0
+    const Data=[
+        {
+            name:"Boston Lettuce",
+            qty:5,
+            price:1.10
+        },
+        {
+            
+            name:"Purple Cauliflower",
+            qty:2,
+            price:1.85
+        },
+    ]
 return(
     <ScrollView>
     <View style={{margin:10,flex:1,justifyContent:'center',alignItems:'center'}} >
@@ -63,13 +79,25 @@ return(
             <Text style={styles.textHead}>Qunatity</Text>
             <Text style={styles.textHead}>Unit price</Text>
         </View>
+        <View>
+         {Data.map((item)=>{
+            count=count+item.price 
+            return(             
+                <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+                <Text style={[styles.textHead,{fontWeight:'normal'}]}>{item.name}</Text>
+                <Text style={[styles.textHead,{fontWeight:'normal'}]}>{item.qty}</Text>
+                <Text style={[styles.textHead,{fontWeight:'normal'}]}>{item.price}</Text>
+            </View> 
+            )
+         })}
+         </View>
         <View style={{flexDirection:'row',justifyContent:'space-around',borderTopColor:'#2D0C57',borderTopWidth:1}} >
             <Text style={styles.textHead}>Total</Text>
-            <Text style={styles.textHead}>0.000</Text>
+            <Text style={styles.textHead}>{count}</Text>
         </View>
        </View>
        </View>
-       <Pressable style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
+       <Pressable onPress={()=>alert("Your Order has been placed seccesfully")} style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
             <Text style={{color:'#fff',fontWeight:'bold'}} >ORDER NOW</Text>
         </Pressable>
     </View>

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ScrollView, Dimensions, Text, TextInput, View,StyleSheet,FlatList, ImageBackground,Image, Pressable } from 'react-native';
 import { SliderBox } from "react-native-image-slider-box";
 import { BlurView } from 'expo-blur';
+import ItemList from './Itemlist';
 const Catogory=({navigation})=> {
    
     const CrousalData=[
@@ -10,12 +11,12 @@ const Catogory=({navigation})=> {
         require('../assets/image2.jpeg'),
     ] 
     const [items, setItems] = React.useState([
-        { name: 'Fruits', image: require('../assets/Media(1).png')},
-        { name: 'Bread', image:require('../assets/Media(2).png') },
-        { name: 'Sweets', image:require('../assets/Media(3).png') },
-        { name: 'items', image: require('../assets/Media(4).png')},
-        { name: 'Drinks', image:require('../assets/Media(5).png') },
-        { name: 'Vegetables', image:require('../assets/Media(6).png') },
+        { id:0,name: 'Fruits', image: require('../assets/Media(1).png')},
+        { id:1,name: 'Bread', image:require('../assets/Media(2).png') },
+        { id:2,name: 'Sweets', image:require('../assets/Media(3).png') },
+        { id:3, name: 'items', image: require('../assets/Media(4).png')},
+        { id:4,name: 'Drinks', image:require('../assets/Media(5).png') },
+        { id:5,name: 'Vegetables', image:require('../assets/Media(6).png') },
       ]);
       
    return (
@@ -53,7 +54,7 @@ const Catogory=({navigation})=> {
         
         renderItem={({ item }) => (
             <View style={{ flex:1, flexDirection: 'column', margin: 10,borderRadius:5 }}>
-              <Pressable onPress={()=>navigation.navigate('Itemlist')}>
+              <Pressable onPress={()=>navigation.navigate('ItemList',{id:item.id,name:item.name,image:item.image})}>
               <ImageBackground  style={styles.imageThumbnail} source={item.image} >
               <BlurView intensity={80} tint='light' style={{width:150}} >
                 <View style={{width:'100%',height:40,alignItems:'center',justifyContent:'center'}} >               
