@@ -5,13 +5,16 @@ import {Image,Text,TextInput, View, StyleSheet, ListRenderItem,Pressable } from 
 import { Tabs,MaterialTabBar,useFocusedTab } from 'react-native-collapsible-tab-view'
 import { useState } from "react";
 import { collection, doc, getDocs,query,where,deleteDoc} from "firebase/firestore";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getDatabase, ref, child, get, set } from "firebase/database";
 import { initializeApp } from 'firebase/app';
 import {firebaseConfig } from "../Config";
+import NumericInput from 'react-native-numeric-input'
+import Item from './Item';
+import { log } from 'react-native-reanimated';
 const HEADER_HEIGHT = 200
 const app=initializeApp(firebaseConfig)
  const ItemList = ({route,navigation}) => {
-    const {id,name,image}=route.params
+    const {name,image}=route.params
      const [tablename,settablename]=useState(name)
      const CrousalData=[
         require('../assets/image0.jpg'),
@@ -19,9 +22,14 @@ const app=initializeApp(firebaseConfig)
         require('../assets/image2.jpeg'),
     ] 
 const[friutData,setFriutData]=useState()
-    useEffect(()=>{
+const[vegetableData,setvegetableData]=useState()
+const[SweetsData,setSweetsData]=useState()
+const[BreadData,setBreadData]=useState()
+const[orderData,setOrderData]=useState(null)
+
+useEffect(()=>{
     const dbRef = ref(getDatabase(app));
-    get(child(dbRef, tablename)).then((snapshot) => {
+    get(child(dbRef, 'Fruits')).then((snapshot) => {
       if (snapshot.exists()) {
         console.log(snapshot.val());
         setFriutData(snapshot.val())
@@ -31,9 +39,55 @@ const[friutData,setFriutData]=useState()
     }).catch((error) => {
       console.error(error);
     });
-},[tablename])
-      
-    
+},[])
+useEffect(()=>{
+    const dbRef = ref(getDatabase(app));
+    get(child(dbRef, 'Vegetables')).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        setvegetableData(snapshot.val())
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+},[])      
+useEffect(()=>{
+    const dbRef = ref(getDatabase(app));
+    get(child(dbRef, 'Bread')).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        setBreadData(snapshot.val())
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+},[])
+function writeUserData() {
+  const db = getDatabase(app);
+  set(ref(db, 'orderDetail'), {
+    orderData
+  }).then(()=>{
+    setcountCart(true)
+    navigation.navigate('Cart')
+  });
+}
+useEffect(()=>{
+    const dbRef = ref(getDatabase(app));
+    get(child(dbRef, 'Sweets')).then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        setSweetsData(snapshot.val())
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+},[])   
     const [countCart,setcountCart]=useState(true)
     const [count,setCount]=useState(1)  
     const tabBar = props => (
@@ -75,15 +129,33 @@ const[friutData,setFriutData]=useState()
     <TextInput style={{ padding: 10, paddingStart: 30, borderRadius: 20, marginLeft: 16, marginBottom: 10, height: 40, width: '90%', borderColor: '#2D0C57', borderWidth: 2 }} placeholder='Search' />
      </View>
     }
-
-
+  const CartData=(name,price,quantity)=>{
+    console.log(orderData)
+    console.log(name)
+    console.log(price)
+    console.log(quantity)
+    let initialize=[{
+      itemName:name,
+      itemPrice:price,
+      itemQuantity:quantity
+     }]
+    if(orderData===null)
+    {
+      setOrderData(initialize)
+    }
+    else 
+     { setOrderData(current=>[...current, {itemName:name,itemPrice:price,itemQuantity:quantity}])
+      console.log("moreData",orderData)
+     }
+     
+  } 
+console.log(orderData)
 
 
 
   const renderItem =(({item, index }) => {
     return (
-        <Pressable onPress={()=>navigation.navigate('Item')} style={{ height:150,width:'100%',justifyContent:'center',flexDirection:'row',alignItems:'center'}}>
-                
+        <Pressable onPress={()=>navigation.navigate('Item',{name:item.name,disc:item.Description,image:item.image,origen:item.origen,price:item.price,type:item.type})} style={{ height:150,width:'100%',justifyContent:'center',flexDirection:'row',alignItems:'center'}}>      
         <Image style={{width:'40%',height:'80%',borderRadius:7}} source={{uri:item.image}} />  
         <View style={{width:'40%',marginLeft:25}}>
          <Text style={{marginTop:10,fontSize:18,color:'#2D0C57',fontWeight:'800'}} >{item.name}</Text>
@@ -99,26 +171,19 @@ const[friutData,setFriutData]=useState()
          </Pressable>
          </View>
         :
-        <View style={{alignItems:'center'}}>
-         <View style={{height:'30%',width:'100%',flexDirection:'row',justifyContent:'space-around',alignItems:'center'}} >
-        <Pressable onPress={()=>setCount(count+1)}  style={{justifyContent:'center',alignItems:'center'}} >
-            <Image style={{height:15,width:15}} source={require('../assets/plus.png')} />
-        </Pressable>
-        <Text style={{fontSize:15}} >{count}</Text>
-        <Pressable onPress={()=>setCount(count-1)} style={{ paddingTop:13,justifyContent:'center',alignItems:'center'}} >
-            <Image style={{height:15,width:15}} source={require('../assets/minus.png')} />
-        </Pressable>
-        </View>
-        <View>
-        <Pressable  style={{backgroundColor:'#0BCE83',height:25,width:50,justifyContent:'center',alignItems:'center',borderRadius:3}} >
+        <View style={{alignItems:'center',flexDirection:'row'}}>
+        <NumericInput 
+         totalWidth={80} 
+         totalHeight={35} 
+         onChange={value => setCount(value)} />
+          <Pressable onPress={()=>CartData (item.name, item.price,count)} style={{backgroundColor:'#0BCE83',marginStart:10,height:32,width:'30%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
              <Image style={{height:12,width:12}} source={require('../assets/shopping-cart.png')} />
-        </Pressable>
-        </View>
+         </Pressable>
         </View>
           }                
         </View>
      </Pressable>
-)
+        )
     })
 const onTabChange=(props)=>{
     settablename(props.tabName)
@@ -139,36 +204,72 @@ const onTabChange=(props)=>{
           data={friutData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
       <Tabs.Tab name="Vegetables">
       <Tabs.FlatList
-          data={friutData}
+          data={vegetableData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
       <Tabs.Tab name="Sweets">
       <Tabs.FlatList
-          data={friutData}
+          data={SweetsData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
       <Tabs.Tab name="items">
         <Tabs.FlatList
           data={friutData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
       <Tabs.Tab name="Drinks">
       <Tabs.FlatList
           data={friutData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
       <Tabs.Tab name="Bread">
       <Tabs.FlatList
-          data={friutData}
+          data={BreadData}
           renderItem={renderItem}
         />
+        {
+          countCart===false&&<Pressable onPress={writeUserData}  style={{flexDirection:'row', backgroundColor:'#0BCE83',margin:5,marginStart:30,height:42,width:'85%',justifyContent:'center',alignItems:'center',borderRadius:3}} >
+             <Text style={{color:'#fff',fontSize:15}}>Submit Order</Text>
+             <Image style={{height:15,width:15}} source={require('../assets/shopping-cart.png')} />   
+         </Pressable>
+        }
       </Tabs.Tab>
     </Tabs.Container>
   )
@@ -193,4 +294,3 @@ const styles = StyleSheet.create({
 })
 
 export default ItemList;
-

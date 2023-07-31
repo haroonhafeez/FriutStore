@@ -56,7 +56,7 @@ export default function App() {
     <stack.Navigator initialRouteName='Welcome' >
       <stack.Screen
       name='onlinestore' component={Welcome} options={{headerTitle:(props)=><Logo {...props} />}}/>
-      <stack.Screen  name='signup' component={Signup} options={{headerTitle:(props)=><Logo {...props} />}} />
+      <stack.Screen  name='Signup' component={Signup} options={{headerTitle:(props)=><Logo {...props} />}} />
       <stack.Screen  name='Catogory' component={Bottombar} options={{headerTitle:(props)=><Logo {...props} />}} />
       <stack.Screen  name='ItemList' component={Bottombar} options={{headerTitle:(props)=><ListHead {...props} />}} />
       <stack.Screen  name='Item' component={Bottombar} options={{headerTitle:(props)=><Logo {...props} />}} />

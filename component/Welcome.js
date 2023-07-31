@@ -10,7 +10,7 @@ return(
          <Text style={[styles.text,{fontSize:13,marginTop:15}]} >When placing an order, select the option </Text>
          <Text style={[styles.text,{fontSize:13}]}>“Contactless delivery”and the courier will leave</Text>
          <Text style={[styles.text,{fontSize:13}]} >your order at the door.</Text>
-        <Pressable onPress={()=>navigation.navigate('signup')} style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
+        <Pressable onPress={()=>navigation.navigate('Signup')} style={[styles.btn,{backgroundColor:'#0BCE83'}]} >
             <Text style={{color:'#fff',fontWeight:'bold'}} >ORDER NOW</Text>
         </Pressable>
         <Pressable style={[styles.btn,{marginTop:10}]} >
